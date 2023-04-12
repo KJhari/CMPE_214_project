@@ -6,6 +6,7 @@
 #include "/usr/include/python2.7/Python.h"
 #include "/home/nvidia/Documents/libxlsxwriter/include/xlsxwriter.h"
 
+//suganya checking
 
 void init_cpu_data(int* A, int size, int stride, int mod){
     for (int i = 0; i < size; i=i+stride){
