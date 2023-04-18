@@ -2,7 +2,7 @@
 import pandas as pd
 import numpy as np
 
-df = pd.read_excel('L1_Cache_Size_Calculation.xlsx', sheet_name='Sheet1', usecols='A:B')
+df = pd.read_excel('L1_Cache_Size_Calculation.xls', sheet_name='Sheet1', usecols='A:B')
 
 time_diff = df.iloc[:,1].diff().dropna()
 threshold = 1000000 * time_diff.std()
