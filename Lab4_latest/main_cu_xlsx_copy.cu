@@ -19,27 +19,13 @@ int ret = system("./cache_python.py");
     return 0;
 }
 
-void write_to_file(long long int* t_value, int* A, int size)
-{     
-
-
-    FILE *fp;
-    fp = fopen("L1_Cache_Size_Calculation.xlsx","a+");
-    fputs("Array Size, Duration Time",fp);
-    fputs("\n",fp);
-            
-			
-	
+void write_to_file(FILE *fp, long long int* t_value, int* A, int size)
+{     	
 
         fprintf(fp,"%d",size);
         fputs(",",fp);
 	    fprintf(fp,"%llu",t_value[0]);
         fputs("\n",fp);
-    
-
-        fclose(fp);
- 
-		
             
 }
 
@@ -50,6 +36,11 @@ void L1_Cache_Size_compute()
     int *A_d;
 	long long int *tvalue_d;
     int array_size, mod, stride = 1;
+
+    FILE *fp;
+    fp = fopen("L1_Cache_Size_Calculation_new.xlsx","a+");
+    fputs("Array Size, Duration Time",fp);
+    fputs("\n",fp);
 
     for(int array_size = 2; array_size < 131072 *2; array_size*=2){
     mod = array_size;
@@ -79,9 +70,9 @@ void L1_Cache_Size_compute()
          
 	    cudaDeviceSynchronize();
 		  
-        write_to_file(tvalue_h, A_h, array_size);
-        check_cache_size();
-     
+       // write_to_file(fp, tvalue_h, A_h, array_size);
+        //check_cache_size();
+        fclose(fp);
         cudaDeviceSynchronize();
 
     free(A_h);
@@ -102,7 +93,7 @@ int main(int argc, char *argv[])
 {
 
 
-   
+   L1_Cache_Size_compute();
   
 	
 
