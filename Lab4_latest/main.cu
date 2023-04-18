@@ -6,6 +6,7 @@
 #include "/usr/include/python2.7/Python.h"
 #include "/home/nvidia/Documents/libxlsxwriter/include/xlsxwriter.h"
 
+long int L1_Cache_size;
 // suganya checking
 
 void init_cpu_data(int *A, int size, int stride, int mod)
@@ -19,9 +20,32 @@ int check_cache_size()
 {
 
     int ret = system("python ./parse_csv.py  --filename L1_Cache_Size_Calculation_new.csv --threshold 1000");
-    printf("ret-->%d\n",ret);
 
     return 0;
+}
+
+void get_L1_cache_size()
+{
+    FILE *fp;
+    fp = fopen("output.txt", "r");
+    if (fp == NULL) {
+        printf("Error: Could not open file.\n");
+    }
+
+    // Read an integer value from the file and store it into a variable
+    int value;
+    if (fscanf(fp, "%ld", &L1_Cache_size) != 1) {
+        printf("Error: Could not read integer value from file.\n");
+        fclose(fp);
+    }
+     
+    
+    // Print the value to the console
+    printf("Read integer value from file: %ld KB\n", (L1_Cache_size * 4)/1024);
+
+    // Close the file
+    fclose(fp);
+    
 }
 
 void write_to_file(FILE *fp, long long int *t_value, int *A, int size)
@@ -97,7 +121,8 @@ void L1_Cache_Size_compute()
         cudaFree(tvalue_d);
     }
     fclose(fp);
-     check_cache_size();
+    check_cache_size();
+    get_L1_cache_size();
 }
 
 int main(int argc, char *argv[])

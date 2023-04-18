@@ -36,8 +36,7 @@ with open(args.filename, 'r') as csvfile:
                 previous_duration =  current_duration
                 previous_array_size = int(row[0])
             else:
-                with open('output.txt', 'w') as outfile:
-                    outfile.write(str(previous_array_size)) 
+                print(previous_array_size) 
                 break   
             
         except:
